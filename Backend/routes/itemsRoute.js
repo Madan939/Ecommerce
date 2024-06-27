@@ -1,0 +1,10 @@
+const express=require('express')
+const itemsController=require('../controllers/itemsController')
+const upload = require('../middleware/fileupload')
+const router=express.Router()
+router.get('/getallitems',itemsController.getAllItems)
+router.post('/add-item',upload.single('image'),itemsController.addnewitems)
+router.get('/edit/:_id',itemsController.getedititems)
+router.post('/update',upload.single('image'),itemsController.postupdateitems)
+router.post('/deleteitem/:_id',itemsController.postdeleteitems)
+module.exports=router
