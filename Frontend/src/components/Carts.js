@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { remove, updateCartQuantity } from '../store/cartSlice';
 import { toast } from 'react-toastify';
+import { IMAGEURL } from './Commonroute';
 
 const Carts = ({ item, idx }) => {
     const dispatch = useDispatch()
@@ -27,7 +28,7 @@ const Carts = ({ item, idx }) => {
                 <div className="card-2 card">
                     <div className='row container-fluid p-2'>
                         <div className='col-md-5'>
-                            <img src={image} className='tableimage' alt="" />
+                            <img src={`${IMAGEURL}${image}`} className='tableimage' alt="" />
                         </div>
                         <div className='col-md-7'>
                             <div className='d-flex'>

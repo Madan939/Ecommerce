@@ -3,8 +3,9 @@ import { useReactToPrint } from 'react-to-print';
 const Billlist = ({ customer, idx }) => {
   const { createdAt, customername, customerphone, totalamount, item, subtotal, tax } = customer;
   const [isOpen, setIsOpen] = useState(false);
+  const date=createdAt.substring(0, 10);
+  const time=createdAt.substring(11, 19);
 const componentRef=useRef()
-
   const openModal = () => {
     setIsOpen(true);
   };
@@ -19,7 +20,8 @@ const componentRef=useRef()
         <td>{customername}</td>
         <td>{customerphone}</td>
         <td>${totalamount}</td>
-        <td>{createdAt}</td>
+        <td>{date}</td>
+        <td>{time}</td>
         <td>
           <button type="button" className="btn btn-primary" onClick={openModal}>
             Print Bill
@@ -45,6 +47,10 @@ const componentRef=useRef()
                     <div className="d-flex justify-content-between">
                       <div><strong>Customer phone:</strong></div>
                       <div>{customerphone}</div>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <div><strong>Date:</strong></div>
+                      <div>{date}</div>
                     </div>
                     <hr/>
                     <table className='table table-bordered'>
@@ -72,7 +78,7 @@ const componentRef=useRef()
                       <div>${subtotal}</div>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <div>Tax:</div>
+                      <div>Tax (10%):</div>
                       <div>${tax}</div>
                     </div>
                     <div className="d-flex justify-content-between mb-3">

@@ -71,7 +71,7 @@ const Chargebill = () => {
                         <div className='mb-3'>
                             <p className='h5'>Subtotal:${subtotal}</p>
 
-                            <p className='h5'>Tax:${(subtotal * 0.1).toFixed(2)}</p>
+                            <p className='h5'>Tax(10%):${(subtotal * 0.1).toFixed(2)}</p>
                             <p className='h5'>GrandTotal:${(subtotal + (subtotal * 0.1)).toFixed(2)}</p>
                         </div>
                     }

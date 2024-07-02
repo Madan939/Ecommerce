@@ -35,7 +35,8 @@ const Bills = () => {
               <th>Customer_Name</th>
               <th>Customer_Phone</th>
               <th>Amount</th>
-              <th>Created_Time</th>
+              <th>Date</th>
+              <th>Time</th>
               <th>Action</th>
             </tr>
           </thead>
