@@ -16,3 +16,4 @@ process.on('SIGINT',async()=>{
     process.exit(0)
 })
 module.exports=connectobj
+//mongodb+srv://madantamang939:E92k5pinFHoUXBCT@cluster0.jqcs0op.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0

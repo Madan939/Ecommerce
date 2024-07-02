@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { add, remove } from '../store/cartSlice';
 import { toast } from 'react-toastify';
+import { IMAGEURL } from './Commonroute';
 const HomeItems = ({ item }) => {
     const dispatch = useDispatch();
     const { cartlist } = useSelector(state => state.cartState);
@@ -27,7 +28,7 @@ const HomeItems = ({ item }) => {
         <>
             <div className='col-md-3 mt-2 mb-2'>
                 <div className="card-1 card">
-                    <img src={image} className="image card-img-top p-2" alt="" />
+                    <img src={`${IMAGEURL}${image}`} className="image card-img-top p-2" alt="" />
                     <p className='h6 text-dark text-center'>Name={name}</p>
                     <p className=' text-center'>Price=${price}</p>
                     <p className=' text-center'>Category={category}</p>

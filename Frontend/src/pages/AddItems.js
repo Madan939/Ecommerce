@@ -86,6 +86,7 @@ const AddItems = () => {
   const [price, setPrice] = useState('');
   const [image, setImage] = useState(null); // Use null for file input
   const [category, setCategory] = useState('');
+  const [imagepreview,setimagepreview]=useState(null);
   const navigate = useNavigate();
 
   const submit = async (e) => {
@@ -95,20 +96,43 @@ const AddItems = () => {
     formData.append('name', name);
     formData.append('price', Number(price));
     formData.append('image', image); 
-
+    formData.append('category', category);
     try {
-      await axios.post(`${APIROUTE}items/add-item`, formData);
-      toast.success('Item added successfully');
-    navigate('/');
+      // await axios.post(`${APIROUTE}items/add-item`, formData);
+      
+      const res= await axios.post(`${APIROUTE}items/add-item`, formData,{
+        headers:{
+          'Content-Type':'multipart/form-data'
+        }
+        
+      })
+      console.log("response",res)
+      if(res.data.sucess==true){
+        toast.success(res.data.message);
+        navigate('/');
       setName('');
       setPrice('');
       setImage(null);
       setCategory('');
+      }
+      
+      
     } catch (err) {
       console.error('Error adding item:', err);
       toast.error('Failed to add item. Please try again.');
     }
   };
+  const onfilechange=e=>{
+    const file=e.target.files[0];
+    setImage(file)
+    //generate image preview
+    const reader=new FileReader();
+    reader.onloadend=()=>{
+      setimagepreview(reader.result)
+    }
+    reader.readAsDataURL(file)
+    
+  }
 
   return (
     <>
@@ -145,10 +169,14 @@ const AddItems = () => {
               type='file'
               className='form-control'
               id='floatingImage'
-              onChange={(e) => setImage(e.target.files[0])}
+              onChange={onfilechange}
               required
             />
             <label htmlFor='floatingImage'>Image</label>
+            {imagepreview && 
+            <div>
+              <img src={imagepreview} style={{width:'200px',height:'auto'}}/>
+              </div>}
           </div>
           <div className='input-group mb-3'>
             <label className='input-group-text' htmlFor='inputGroupSelect01'>

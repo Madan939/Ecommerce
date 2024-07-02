@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
+import { IMAGEURL } from './Commonroute';
 //import { useDispatch } from 'react-redux';
 
 
@@ -30,7 +31,7 @@ const Itemlist = ({ item, idx,deleteItem }) => {
                 <td>{name}</td>
                 <td>${price}</td>
                 <td>
-                    <img src={image} alt='' className='tableimage-1 w-75' />
+                    <img src={`${IMAGEURL}${image}`}alt='' className='tableimage-1 w-75' />
                     
                 </td>
                 <td>{category}</td>

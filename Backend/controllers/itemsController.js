@@ -1,4 +1,7 @@
 const Item=require('../models/itemsModel')
+const path = require('path');
+const fs = require('fs');
+const { error } = require('console');
 exports.getAllItems=async(req,res)=>{
     try{
         const items=await Item.find()
@@ -9,9 +12,10 @@ exports.getAllItems=async(req,res)=>{
     }
 }
 exports.addnewitems=async(req,res)=>{
-    try{
-        //console.log(req.body)
-       //const newitems=new Item(req.body)
+    console.log(req.body)
+   try{
+        console.log(req.body)
+       const newitems=new Item(req.body)
        const newitem=new Item({
         name:req.body.name,
         category:req.body.category,
@@ -20,7 +24,11 @@ exports.addnewitems=async(req,res)=>{
        })
        console.log(newitems)
        await newitem.save()
-       res.send("item added successfully")
+    //    res.send("item added successfully")
+    res.status(200).json({
+        sucess:true,
+        message: 'item added successfully'
+    })
     }
     catch(err){
         res.status(400).json(err)
@@ -45,14 +53,47 @@ exports.getedititems=async(req,res)=>{
 
 }
 exports.postupdateitems=async(req,res)=>{
+   
     const id=req.body.id
-    const {name,image,category,price}=req.body
     try{
-        await Item.findByIdAndUpdate(id,{
-            name,price,image,category
-        })
+        const product=await Item.findById(id)
+      
+        if(!product){
+            return res.status(400).json({
+                message:"product not found",
+                success:false
+            })
+        }
+        const {name,category,price}=req.body
+        let image=product.image
+//console.log(req.body)
+
+        if(req.file && req.file.path){
+           // console.log("path",req.file.path)
+            const oldimgpath=path.join(__dirname,'../public/uploads',product.image)
+            console.log(oldimgpath)
+            fs.unlink(oldimgpath,(err)=>{
+                if(err){
+                    console.log("failed to delete old image")
+                }
+            })
+            image=req.file.path
+    
+        }
+        console.log("dd",{name,price,image,category})
+        await Item.findByIdAndUpdate(id,{name,price,image,category})
         res.send("updated successfully")
     }
+   
+    
+  
+    // const upddatedfield={
+    //     name:req.body.name,
+    //     price:req.body.price,
+    //     image:req.body.image,
+    //     category:req.body.category
+    // }
+    
     catch(err){
         res.status(400).json(err)
        }
