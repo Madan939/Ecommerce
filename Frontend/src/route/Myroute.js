@@ -10,6 +10,7 @@ import EditItem from '../components/EditItem'
 import Login from '../pages/Login'
 import Signup from '../pages/Signup'
 import Chargebill from '../pages/Chargebill'
+import Confirmation from '../pages/Confirmation'
 export const Myroute = () => {
   
   return (
@@ -26,7 +27,7 @@ export const Myroute = () => {
         <Route path='/chargebill' element={<ProtectedRoute><Chargebill/></ProtectedRoute>} />
         <Route path='/Login' element={<Login />} />
         <Route path='/Signup' element={<Signup />} />
-
+        <Route path='/confirmation/:token' element={<Confirmation/>} />
 
       </Routes>
 
