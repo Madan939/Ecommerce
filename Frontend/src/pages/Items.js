@@ -1,15 +1,17 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Itemlist from '../components/Itemlist'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { hideloading, showloading } from '../store/cartSlice'
 import { APIROUTE } from '../components/Commonroute'
 import { toast } from 'react-toastify'
+import { Authcontext } from '../context/Authcontext'
 
 const Items = () => {
-  const [allitems, setAllitems] = useState([])
-  const dispatch = useDispatch()
+  const { getToken, logOut } = useContext(Authcontext);
+  const [allitems, setAllitems] = useState([]);
+  const dispatch = useDispatch();
   const getallitems = async () => {
     dispatch(showloading())
     await axios.get(`${APIROUTE}items/getallitems`)
@@ -28,10 +30,18 @@ const Items = () => {
     getallitems()
   }, [])
   const deleteItem = async (_id) => {
-    console.log(_id)
+    // console.log(_id)
+    let token = getToken();
+    if (!token) {
+      alert("You are not authorized to delete")
+      logOut()
+    }
     dispatch(showloading())
-    await axios.post(`${APIROUTE}items/deleteitem/${_id}`)
-
+    await axios.post(`${APIROUTE}items/deleteitem/${_id}`,{},{
+      headers:{
+          'Authorization':`Bearer ${token}`
+        }
+  })
       .then(res => {
         getallitems()
         toast.error(`Item deleted successfully`);

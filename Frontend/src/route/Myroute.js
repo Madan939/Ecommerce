@@ -11,6 +11,9 @@ import Login from '../pages/Login'
 import Signup from '../pages/Signup'
 import Chargebill from '../pages/Chargebill'
 import Confirmation from '../pages/Confirmation'
+import Forgetpassword from '../pages/Forgetpassword'
+import Resetpassword from '../pages/Resetpassword'
+import Confirmreset from '../pages/Confirmreset'
 export const Myroute = () => {
   
   return (
@@ -27,8 +30,10 @@ export const Myroute = () => {
         <Route path='/chargebill' element={<ProtectedRoute><Chargebill/></ProtectedRoute>} />
         <Route path='/Login' element={<Login />} />
         <Route path='/Signup' element={<Signup />} />
+        <Route path='/forgetpass' element={<Forgetpassword />} />
         <Route path='/confirmation/:token' element={<Confirmation/>} />
-
+        <Route path='/resetpassword/:token/:_id' element={<Resetpassword/>} />
+        <Route path='/confirmreset' element={<Confirmreset/>} />
       </Routes>
 
     </>

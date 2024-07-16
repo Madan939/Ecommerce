@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Myroute } from '../route/Myroute'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { Authcontext } from '../context/Authcontext'
 const Header = () => {
+  const {logOut}=useContext(Authcontext);
   const { cartlist, loading } = useSelector(state => state.cartState)
   const login = JSON.parse(localStorage.getItem('User'))
   const navigate = useNavigate()
@@ -29,7 +31,7 @@ const Header = () => {
           <Link className="list-group-item list-group-item-action list-group-item-light p-3" to="/Customers">Customers</Link>
           {login ? (
             <Link className="list-group-item list-group-item-action list-group-item-light p-3" onClick={() => {
-              localStorage.removeItem('User')
+              logOut();
               navigate("/Login")
             }} >Log out</Link>
           ) : (

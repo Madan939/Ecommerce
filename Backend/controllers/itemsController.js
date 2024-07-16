@@ -35,7 +35,7 @@ exports.addnewitems = async (req, res) => {
     }
 }
 exports.getedititems = async (req, res) => {
-    // console.log(req.params._id)
+    //  console.log(req.params._id)
     try {
         const id = req.params._id
         const item = await Item.findById(id)
@@ -85,7 +85,7 @@ exports.postupdateitems = async (req, res) => {
         }
         console.log("dd", { name, price, image, category })
         await Item.findByIdAndUpdate(id, { name, price, image, category })
-        res.send("updated successfully")
+        res.send("items updated successfully")
     }
     catch (err) {
         res.status(400).json(err)
@@ -95,6 +95,7 @@ exports.postupdateitems = async (req, res) => {
 }
 exports.postdeleteitems = async (req, res) => {
     const id = req.params._id
+    // console.log(id)
     try {
         const product = await Item.findById(id)
         if (!product) {

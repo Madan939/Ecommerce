@@ -2,28 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { IMAGEURL } from './Commonroute';
-//import { useDispatch } from 'react-redux';
-
-
 const Itemlist = ({ item, idx,deleteItem }) => {
-    // const dispatch = useDispatch()
     const { _id, name, image, price, category } = item;
-    // const deleteItem = async () => {
-    //     dispatch(showloading())
-    //     await axios.post(`${APIROUTE}items/deleteitem/${_id}`)
-
-    //         .then(res => {
-    //             toast.error(`${name} Item deleted successfully`);
-    //             dispatch(hideloading())
-    //             // window.location.reload();
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //             toast.error("Error deleting item");
-    //             dispatch(hideloading())
-    //         });
-    // };
-
     return (
         <>
             <tr>

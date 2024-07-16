@@ -5,4 +5,6 @@ const router=express.Router()
 router.post('/userRegister',userController.userRegister)
 router.post('/userLogin',test,userController.userLogin)
 router.get('/confirmation/:token',test,userController.verifyEmail)
+router.post('/forgetpass',userController.forgetpassword)
+router.post('/resetpass',userController.resetpassword)
 module.exports=router

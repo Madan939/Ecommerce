@@ -1,9 +1,11 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { APIROUTE, IMAGEURL } from './Commonroute'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { Authcontext } from '../context/Authcontext'
 const EditItem = () => {
+    const {getToken,logOut}=useContext(Authcontext)
     const [name, setname] = useState('')
     const [price, setprice] = useState('')
     const [image, setimage] = useState(null)
@@ -14,7 +16,17 @@ const EditItem = () => {
     const navigate = useNavigate()
     useEffect(() => {
         if (_id) {
-            axios.get(`${APIROUTE}items/edit/${_id}`)
+            const token=getToken();
+            if(!token){
+                alert("You are not authorized to edit");
+                logOut();
+                return;
+            }
+            axios.get(`${APIROUTE}items/edit/${_id}`,{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                  }
+            })
                 .then(res => {
                     setname(res.data.name)
                     setprice(res.data.price)
@@ -28,38 +40,35 @@ const EditItem = () => {
     }, [_id])
 
     const updateform = async (e) => {
-       
-        e.preventDefault()
-        console.log("hello")
-        // const data = {
-        //     id: _id,
-        //     name: name,
-        //     price: Number(price),
-        //     image: image,
-        //     category: category
-        // }
+        e.preventDefault();
+        const token=getToken();
+        if(!token){
+            alert("You are not authorized to update")
+            logOut()
+            return;
+        }
         const formData = new FormData();
-        formData.append('id',_id);
+        formData.append('id', _id);
         formData.append('name', name);
         formData.append('price', Number(price));
         // formData.append('image', image); 
         formData.append('category', category);
-        if(image){
-            formData.append('image',image)
+        if (image) {
+            formData.append('image', image)
         }
-        else{
-            formData.append('image',imageUrl)
+        else {
+            formData.append('image', imageUrl)
         }
-         await axios.post(`${APIROUTE}items/update`, formData,{
-            headers:{
-                'Content-Type':'multipart/form-data'
+        await axios.post(`${APIROUTE}items/update`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization':`Bearer ${token}`
             }
         })
             .then(res => {
                 //console.log(res.data)
-                toast.success("Item updated successfully");
+                toast.success(res.data);
                 navigate('/Items')
-
             })
             .catch(err => {
                 console.log(err)
@@ -99,22 +108,22 @@ const EditItem = () => {
                             type='file'
                             className='form-control'
                             id='floatingImage'
-                            
+
                             onChange={onfilechange}
-                            
+
                         />
                         <label htmlFor='floatingImage'>Image</label>
-                        {!imageUrl ?(
-                             <div>
-                             <img src={imagepreview} style={{ width: '200px', height: 'auto' }} />
-                         </div>
-                        ):(
+                        {!imageUrl ? (
                             <div>
-                            <img src={`${IMAGEURL}${imageUrl}`} style={{ width: '200px', height: 'auto' }} />
-                        </div>  
+                                <img src={imagepreview} alt='' style={{ width: '200px', height: 'auto' }} />
+                            </div>
+                        ) : (
+                            <div>
+                                <img src={`${IMAGEURL}${imageUrl}`} alt='' style={{ width: '200px', height: 'auto' }} />
+                            </div>
                         )
-                           
-                            }
+
+                        }
                     </div>
 
                     <div className="input-group mb-3">
